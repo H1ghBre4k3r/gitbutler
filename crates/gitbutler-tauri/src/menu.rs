@@ -72,6 +72,9 @@ pub fn build(_package_info: &PackageInfo) -> Menu {
                     AboutMetadata::default(),
                 ))
                 .add_native_item(MenuItem::Separator)
+                .add_item(
+                    CustomMenuItem::new("app/settings", "Settings").accelerator("CmdOrCtrl+,"),
+                )
                 .add_native_item(MenuItem::Services)
                 .add_native_item(MenuItem::Separator)
                 .add_native_item(MenuItem::Hide)
@@ -205,6 +208,11 @@ pub fn handle_event<R: Runtime>(event: &WindowMenuEvent<R>) {
             event.window().open_devtools();
             return;
         }
+    }
+
+    if event.menu_item_id() == "app/settings" {
+        emit(event.window(), "menu://app/settings/clicked");
+        return;
     }
 
     if event.menu_item_id() == "help/share-debug-info" {

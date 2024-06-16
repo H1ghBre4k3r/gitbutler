@@ -6,6 +6,7 @@
 	import { AuthService } from '$lib/backend/auth';
 	import { GitConfigService } from '$lib/backend/gitConfigService';
 	import { HttpClient } from '$lib/backend/httpClient';
+	import { listen } from '$lib/backend/ipc';
 	import { ProjectService } from '$lib/backend/projects';
 	import { PromptService } from '$lib/backend/prompt';
 	import { UpdaterService } from '$lib/backend/updater';
@@ -54,10 +55,17 @@
 	$: userSettings.update((s) => ({ ...s, zoom: zoom }));
 
 	onMount(() => {
-		return unsubscribe(
-			events.on('goto', async (path: string) => await goto(path)),
-			events.on('openSendIssueModal', () => shareIssueModal?.show())
-		);
+		const unlisten = listen<string>('menu://app/settings/clicked', () => {
+			goto('/settings/profile', { replaceState: true });
+		});
+
+		return () => {
+			unlisten();
+			return unsubscribe(
+				events.on('goto', async (path: string) => await goto(path)),
+				events.on('openSendIssueModal', () => shareIssueModal?.show())
+			);
+		};
 	});
 
 	const handleKeyDown = createKeybind({

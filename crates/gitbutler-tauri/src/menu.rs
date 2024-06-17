@@ -75,6 +75,7 @@ pub fn build(_package_info: &PackageInfo) -> Menu {
                 .add_item(
                     CustomMenuItem::new("app/settings", "Settings").accelerator("CmdOrCtrl+,"),
                 )
+                .add_native_item(MenuItem::Separator)
                 .add_native_item(MenuItem::Services)
                 .add_native_item(MenuItem::Separator)
                 .add_native_item(MenuItem::Hide)

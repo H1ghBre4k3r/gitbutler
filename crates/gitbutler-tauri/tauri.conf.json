@@ -1,6 +1,6 @@
 {
-	"productName": "GitButler Dev",
-	"identifier": "com.gitbutler.app.dev",
+	"productName": "GitButler Knightly",
+	"identifier": "com.gitbutler.app.knightly",
 	"build": {
 		"beforeDevCommand": "pnpm dev:internal-tauri",
 		"beforeBuildCommand": "[ \"$CI\" = \"true\" ] || pnpm build:desktop -- --mode development",
